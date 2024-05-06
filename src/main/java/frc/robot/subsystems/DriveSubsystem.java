@@ -4,18 +4,24 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants.DriveConstants;
-import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
   // The motors on the left side of the drive.
-  private final PWMTalonSRX m_leftMotor = new PWMTalonSRX(DriveConstants.kLeftMotor1Port);
-  private final PWMTalonSRX m_rightMotor = new PWMTalonSRX(DriveConstants.kLeftMotor2Port);
+  private final WPI_VictorSPX  m_leftMotor = new WPI_VictorSPX (0);
+  private final WPI_VictorSPX  m_rightMotor = new WPI_VictorSPX (6);
+
 
   // The robot's drive
   private final DifferentialDrive m_drive =
@@ -43,7 +49,7 @@ public class DriveSubsystem extends SubsystemBase {
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
-    m_rightMotor.setInverted(true);
+    m_rightMotor.setInverted(false);
 
     // Sets the distance per pulse for the encoders
     //m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
@@ -123,5 +129,14 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public double getTurnRate() {
     return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+  }
+
+
+    @Override
+  public void initSendable(SendableBuilder builder) {
+    super.initSendable(builder);
+    // Publish the solenoid state to telemetry.
+    builder.addDoubleProperty("LeftMotor", () -> m_leftMotor.get(), null);
+    builder.addDoubleProperty("RightMotor", () -> m_rightMotor.get(), null);
   }
 }

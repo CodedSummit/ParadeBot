@@ -5,6 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.TurnToAngle;
@@ -33,6 +35,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    setupDashboard();
 
     // Configure default commands
     // Set the default drive command to split-stick arcade drive
@@ -82,6 +86,11 @@ m_driverController.button(1)
     // Turn to -90 degrees with a profile when the Circle button is pressed, with a 5 second timeout
 m_driverController.button(2)
         .onTrue(new TurnToAngleProfiled(-90, m_robotDrive).withTimeout(5));
+  }
+
+  private void setupDashboard(){
+    Shuffleboard.getTab("Drive")
+     .add("Drive", m_robotDrive);
   }
 
   /**
