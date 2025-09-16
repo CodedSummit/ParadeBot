@@ -19,13 +19,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
   // The motors on the left side of the drive.
-  private final WPI_VictorSPX  m_leftMotor = new WPI_VictorSPX (0);
-  private final WPI_VictorSPX  m_rightMotor = new WPI_VictorSPX (6);
+  private final WPI_VictorSPX  m_leftMotor1 = new WPI_VictorSPX (1);
+  private final WPI_VictorSPX  m_leftMotor2 = new WPI_VictorSPX (3);
+
+
+  private final WPI_VictorSPX  m_rightMotor1 = new WPI_VictorSPX (2);
+  private final WPI_VictorSPX  m_rightMotor2 = new WPI_VictorSPX (4);
 
 
   // The robot's drive
   private final DifferentialDrive m_drive =
-      new DifferentialDrive(m_leftMotor::set, m_rightMotor::set);
+      new DifferentialDrive(m_leftMotor1::set, m_rightMotor1::set);
 
   // The left-side drive encoder
   private final Encoder m_leftEncoder =
@@ -49,7 +53,11 @@ public class DriveSubsystem extends SubsystemBase {
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
-    m_rightMotor.setInverted(false);
+    //m_rightMotor1.setInverted(true);
+    //m_rightMotor2.setInverted(true);
+
+  m_rightMotor2.follow(m_rightMotor1);
+  m_leftMotor2.follow(m_leftMotor1);
 
     // Sets the distance per pulse for the encoders
     //m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
@@ -65,6 +73,11 @@ public class DriveSubsystem extends SubsystemBase {
   public void arcadeDrive(double fwd, double rot) {
     m_drive.arcadeDrive(fwd, rot);
   }
+
+  public void tankDrive(double left, double right) {
+    m_drive.tankDrive(left*.75, right*.75, true);
+  }
+
 
   /** Resets the drive encoders to currently read a position of 0. */
 //  public void resetEncoders() {
@@ -136,7 +149,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
     // Publish the solenoid state to telemetry.
-    builder.addDoubleProperty("LeftMotor", () -> m_leftMotor.get(), null);
-    builder.addDoubleProperty("RightMotor", () -> m_rightMotor.get(), null);
+    builder.addDoubleProperty("LeftMotor", () -> m_leftMotor1.get(), null);
+    builder.addDoubleProperty("RightMotor", () -> m_rightMotor1.get(), null);
   }
 }

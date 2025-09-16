@@ -45,8 +45,8 @@ public class RobotContainer {
         // hand, and turning controlled by the right.
         new RunCommand(
             () ->
-                m_robotDrive.arcadeDrive(
-                    -m_driverController.getLeftY(), -m_driverController.getRightX()),
+                m_robotDrive.tankDrive(
+                    -m_driverController.getLeftY(), m_driverController.getRightY()),
             m_robotDrive));
   }
 
@@ -63,7 +63,7 @@ public class RobotContainer {
         .onFalse(new InstantCommand(() -> m_robotDrive.setMaxOutput(1)));
 
     // Stabilize robot to drive straight with gyro when left bumper is held
-   m_driverController.leftBumper()
+/*    m_driverController.leftBumper()
         .whileTrue(
             new PIDCommand(
                 new PIDController(
@@ -78,15 +78,15 @@ public class RobotContainer {
                 output -> m_robotDrive.arcadeDrive(-m_driverController.getLeftY(), output),
                 // Require the robot drive
                 m_robotDrive));
-
-    // Turn to 90 degrees when the 'X' button is pressed, with a 5 second timeout
-m_driverController.button(1)
-        .onTrue(new TurnToAngle(90, m_robotDrive).withTimeout(5));
-
-    // Turn to -90 degrees with a profile when the Circle button is pressed, with a 5 second timeout
-m_driverController.button(2)
-        .onTrue(new TurnToAngleProfiled(-90, m_robotDrive).withTimeout(5));
-  }
+      // Turn to 90 degrees when the 'X' button is pressed, with a 5 second timeout
+          m_driverController.button(1)
+            .onTrue(new TurnToAngle(90, m_robotDrive).withTimeout(5));
+                
+      // Turn to -90 degrees with a profile when the Circle button is pressed, with a 5 second timeout
+          m_driverController.button(2)
+            .onTrue(new TurnToAngleProfiled(-90, m_robotDrive).withTimeout(5));
+*/
+              }
 
   private void setupDashboard(){
     Shuffleboard.getTab("Drive")
