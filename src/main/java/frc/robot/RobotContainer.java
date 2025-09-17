@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ShaveAndAHaircut;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.TurnToAngleProfiled;
 import frc.robot.subsystems.DriveSubsystem;
@@ -82,15 +83,24 @@ public class RobotContainer {
                 output -> m_robotDrive.arcadeDrive(-m_driverController.getLeftY(), output),
                 // Require the robot drive
                 m_robotDrive));
-
+*/
     // Turn to 90 degrees when the 'X' button is pressed, with a 5 second timeout
-m_driverController.button(1)
-        .onTrue(new InstantCommand(()-> m_HornSubsystem.honkLeft();));
+  m_driverController.x()
+        .whileTrue(m_HornSubsystem.continuousHonkHigh());
 
     // Turn to -90 degrees with a profile when the Circle button is pressed, with a 5 second timeout
-m_driverController.button(2)
-        .onTrue(new TurnToAngleProfiled(-90, m_robotDrive).withTimeout(5));
+  m_driverController.b()
+        .whileTrue(m_HornSubsystem.continuousHonkLow());
+
+  m_driverController.a()
+        .onTrue(m_HornSubsystem.stopHonking());
+
+  m_driverController.y()
+        .onTrue(new ShaveAndAHaircut(m_HornSubsystem));
   }
+
+  //Play different horns
+  
 
   private void setupDashboard(){
     Shuffleboard.getTab("Drive")

@@ -50,4 +50,10 @@ public final class Constants {
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public static final class HornConstants{
+    public static final double highHornVolume = 0.25;
+    public static final double lowHornVolume = 0.25;
+    public static final double hornMin = 0.35;
+  }
 }
