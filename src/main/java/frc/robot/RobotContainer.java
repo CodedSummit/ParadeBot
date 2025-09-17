@@ -12,6 +12,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.TurnToAngleProfiled;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.HornSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
@@ -30,6 +31,9 @@ public class RobotContainer {
 
   // The driver's controller
   CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
+
+  //The bot's horn
+  HornSubsystem m_HornSubsystem = new HornSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -78,15 +82,15 @@ public class RobotContainer {
                 output -> m_robotDrive.arcadeDrive(-m_driverController.getLeftY(), output),
                 // Require the robot drive
                 m_robotDrive));
-      // Turn to 90 degrees when the 'X' button is pressed, with a 5 second timeout
-          m_driverController.button(1)
-            .onTrue(new TurnToAngle(90, m_robotDrive).withTimeout(5));
-                
-      // Turn to -90 degrees with a profile when the Circle button is pressed, with a 5 second timeout
-          m_driverController.button(2)
-            .onTrue(new TurnToAngleProfiled(-90, m_robotDrive).withTimeout(5));
-*/
-              }
+
+    // Turn to 90 degrees when the 'X' button is pressed, with a 5 second timeout
+m_driverController.button(1)
+        .onTrue(new InstantCommand(()-> m_HornSubsystem.honkLeft();));
+
+    // Turn to -90 degrees with a profile when the Circle button is pressed, with a 5 second timeout
+m_driverController.button(2)
+        .onTrue(new TurnToAngleProfiled(-90, m_robotDrive).withTimeout(5));
+  }
 
   private void setupDashboard(){
     Shuffleboard.getTab("Drive")
