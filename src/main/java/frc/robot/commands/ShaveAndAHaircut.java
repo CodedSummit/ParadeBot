@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.subsystems.HornSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -19,14 +20,15 @@ public class ShaveAndAHaircut extends SequentialCommandGroup {
     m_HornSubsystem = horn;
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(m_HornSubsystem.honkHigh(0.5), 
-    m_HornSubsystem.honkLow(0.25), 
-    m_HornSubsystem.honkLow(0.25),
-    m_HornSubsystem.honkHigh(0.25),
-    m_HornSubsystem.honkLow(0.5),
-    new WaitCommand(0.5),
-    m_HornSubsystem.honkLow(0.25),
-    m_HornSubsystem.honkHigh(0.5)
+    addCommands(
+    m_HornSubsystem.honkHigh(Constants.HornConstants.quarterNote), 
+    m_HornSubsystem.honkLow(Constants.HornConstants.eigthNote), 
+    m_HornSubsystem.honkLow(Constants.HornConstants.eigthNote),
+    m_HornSubsystem.honkHigh(Constants.HornConstants.eigthNote),
+    m_HornSubsystem.honkLow(Constants.HornConstants.quarterNote),
+    new WaitCommand(Constants.HornConstants.quarterNote),
+    m_HornSubsystem.honkLow(Constants.HornConstants.eigthNote),
+    m_HornSubsystem.honkHigh(Constants.HornConstants.quarterNote)
     );
   }
 }

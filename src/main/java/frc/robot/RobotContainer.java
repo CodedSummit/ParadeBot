@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ShaveAndAHaircut;
+import frc.robot.commands.Siren;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.TurnToAngleProfiled;
 import frc.robot.subsystems.DriveSubsystem;
@@ -93,7 +94,7 @@ public class RobotContainer {
         .whileTrue(m_HornSubsystem.continuousHonkLow());
 
   m_driverController.a()
-        .onTrue(m_HornSubsystem.stopHonking());
+        .onTrue(new Siren(m_HornSubsystem));
 
   m_driverController.y()
         .onTrue(new ShaveAndAHaircut(m_HornSubsystem));

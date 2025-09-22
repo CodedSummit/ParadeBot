@@ -55,5 +55,11 @@ public final class Constants {
     public static final double hornMin = 0.35;
     public static final double highHornVolume = hornMin;
     public static final double lowHornVolume = hornMin;
+    public static final double eigthNote = 0.25;
+    public static final double quarterNote = eigthNote * 2;
+    public static final double dottedQuarterNote = eigthNote * 3;
+    public static final double halfNote = quarterNote * 2;
+    public static final double dottedHalfNote = quarterNote * 3;
+    public static final double wholeNote = halfNote * 2;
   }
 }
