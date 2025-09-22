@@ -52,8 +52,8 @@ public final class Constants {
   }
 
   public static final class HornConstants{
-    public static final double highHornVolume = 0.25;
-    public static final double lowHornVolume = 0.25;
     public static final double hornMin = 0.35;
+    public static final double highHornVolume = hornMin;
+    public static final double lowHornVolume = hornMin;
   }
 }
